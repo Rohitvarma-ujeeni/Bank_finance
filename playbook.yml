@@ -1,10 +1,11 @@
 ---
-- name: Configure EC2 Instance for Docker and Monitoring
+- name: Configure EC2 Instance for Docker, Ansible, and Monitoring
   hosts: all
   become: yes
 
   tasks:
 
+    # Update APT and install base packages
     - name: Update apt packages
       apt:
         update_cache: yes
@@ -17,17 +18,30 @@
           - curl
           - software-properties-common
           - python3-pip
+          - software-properties-common
+          - gnupg
+          - lsb-release
         state: present
+        update_cache: yes
 
+    # Install Ansible CLI (so ansible-galaxy works)
+    - name: Install Ansible
+      apt:
+        name: ansible
+        state: present
+        update_cache: yes
+
+    # Install Docker and configure
     - name: Add Docker GPG key
       apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
         state: present
 
-    - name: Add Docker repository
+    - name: Add Docker APT repository
       apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
         state: present
+        update_cache: yes
 
     - name: Install Docker
       apt:
@@ -47,16 +61,18 @@
         groups: docker
         append: yes
 
+    # Install Python Docker SDK and community.docker
     - name: Install docker Python SDK
-      pip:
+      ansible.builtin.pip:
         name: docker
+        executable: pip3
 
     - name: Install community.docker collection
       ansible.builtin.command:
         cmd: ansible-galaxy collection install community.docker
         creates: /root/.ansible/collections/ansible_collections/community/docker
 
-    # Node Exporter Setup
+    # Setup Prometheus Node Exporter
     - name: Create /opt directory if not exists
       file:
         path: /opt
