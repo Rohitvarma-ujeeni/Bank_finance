@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    image: ""
+  tasks:
+    - name: Pull application Docker image
+      docker_image:
+        name: "{{ image }}"
+        source: pull
+
+    - name: Stop existing container (if running)
+      docker_container:
+        name: app_container
+        state: absent
+        force_kill: true
+
+    - name: Run application container
+      docker_container:
+        name: app_container
+        image: "{{ image }}"
+        state: started
+        restart_policy: always
+        published_ports:
+          - "8080:8080"
