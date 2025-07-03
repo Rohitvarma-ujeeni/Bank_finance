@@ -1,6 +1,6 @@
 ---
-- name: Configure Jenkins Test EC2 Instance
-  hosts: test_build
+- name: Configure EC2 Instance for Docker and Monitoring
+  hosts: all
   become: yes
 
   tasks:
@@ -45,8 +45,7 @@
         groups: docker
         append: yes
 
-    # ✅ Node Exporter Setup Starts Here
-
+    # Node Exporter Setup
     - name: Create /opt directory if not exists
       file:
         path: /opt
