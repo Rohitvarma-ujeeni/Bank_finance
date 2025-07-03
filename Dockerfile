@@ -2,13 +2,13 @@
 FROM openjdk:17-jdk-slim
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /bank_finance_app
 
 # Copy the jar file to the container
-COPY target/account-microservice-0.0.1-SNAPSHOT.jar app.jar
+COPY target/account-microservice-0.0.1-SNAPSHOT.jar bank_finance_app.jar
 
 # Expose the application port
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "bank_finance_app.jar"]
