@@ -4,17 +4,19 @@
   become: yes
 
   tasks:
+
     - name: Update apt packages
       apt:
         update_cache: yes
 
-    - name: Install required dependencies
+    - name: Install required apt dependencies
       apt:
         name:
           - apt-transport-https
           - ca-certificates
           - curl
           - software-properties-common
+          - python3-pip
         state: present
 
     - name: Add Docker GPG key
@@ -44,6 +46,15 @@
         name: ubuntu
         groups: docker
         append: yes
+
+    - name: Install docker Python SDK
+      pip:
+        name: docker
+
+    - name: Install community.docker collection
+      ansible.builtin.command:
+        cmd: ansible-galaxy collection install community.docker
+        creates: /root/.ansible/collections/ansible_collections/community/docker
 
     # Node Exporter Setup
     - name: Create /opt directory if not exists
