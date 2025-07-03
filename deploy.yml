@@ -5,18 +5,18 @@
     image: ""
   tasks:
     - name: Pull application Docker image
-      docker_image:
+      community.docker.docker_image:
         name: "{{ image }}"
         source: pull
 
     - name: Stop existing container (if running)
-      docker_container:
+      community.docker.docker_container:
         name: app_container
         state: absent
         force_kill: true
 
     - name: Run application container
-      docker_container:
+      community.docker.docker_container:
         name: app_container
         image: "{{ image }}"
         state: started
