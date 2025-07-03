@@ -1,9 +1,14 @@
----
-- hosts: all
+- name: Deploy Dockerized Spring Boot App
+  hosts: all
   become: yes
   vars:
     image: ""
+
   tasks:
+    - name: Install Python Docker SDK
+      pip:
+        name: docker
+
     - name: Pull application Docker image
       community.docker.docker_image:
         name: "{{ image }}"
