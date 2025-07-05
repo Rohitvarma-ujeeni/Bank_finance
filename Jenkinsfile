@@ -2,7 +2,7 @@ pipeline {
     agent { label 'Project_Slave1' }
 
     environment {
-        APP_NAME = 'bank_finance_app'
+        APP_NAME = 'insurence_me_app'
         DOCKER_IMAGE = "rohitvarmaujeeni/${APP_NAME}:${BUILD_NUMBER}"
     }
 
