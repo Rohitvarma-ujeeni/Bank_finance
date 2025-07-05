@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example</groupId>
-    <artifactId>account-microservice</artifactId>
+    <artifactId>policy-microservice</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Account Microservice</name>
+    <name>Policy Microservice</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

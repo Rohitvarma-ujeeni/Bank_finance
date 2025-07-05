@@ -1,7 +1,7 @@
-package com.ABCD.account.controller;
+package com.ABCD.policy.controller;
 
-import com.ABCD.account.entity.Account;
-import com.ABCD.account.service.AccountService;
+import com.ABCD.policy.entity.Policy;
+import com.ABCD.policy.service.PolicyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.jupiter.api.Test;
@@ -17,35 +17,35 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(AccountController.class)
-public class AccountControllerTest {
+@WebMvcTest(PolicyController.class)
+public class PolicyControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AccountService accountService;
+    private PolicyService policyService;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Test
-    void testCreateAccount() throws Exception {
-        Account inputAccount = new Account();
-        inputAccount.setAccountNo("A123");
-        inputAccount.setName("Hari");
-        inputAccount.setEmail("hari@example.com");
-        inputAccount.setPolicy("Life");
+    void testCreatePolicy() throws Exception {
+        Policy inputPolicy = new Policy();
+        inputPolicy.setPolicyId("P123");
+        inputPolicy.setName("Hari");
+        inputPolicy.setEmail("hari@example.com");
+        inputPolicy.setPolicyType("Life");
 
-        Mockito.when(accountService.create(any(Account.class))).thenReturn(inputAccount);
+        Mockito.when(policyService.create(any(Policy.class))).thenReturn(inputPolicy);
 
-        mockMvc.perform(post("/createAccount")
+        mockMvc.perform(post("/createPolicy")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(inputAccount)))
+                .content(objectMapper.writeValueAsString(inputPolicy)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accountNo").value("A123"))
+                .andExpect(jsonPath("$.policyId").value("P123"))
                 .andExpect(jsonPath("$.name").value("Hari"))
                 .andExpect(jsonPath("$.email").value("hari@example.com"))
-                .andExpect(jsonPath("$.policy").value("Life"));
+                .andExpect(jsonPath("$.policyType").value("Life"));
     }
 }
